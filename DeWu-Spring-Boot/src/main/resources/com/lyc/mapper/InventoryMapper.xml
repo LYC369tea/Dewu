@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyc.mapper.InventoryMapper">
+
+    <!-- 自定义 resultMap 用于 InventoryResponse -->
+    <resultMap id="InventoryResponseMap" type="com.lyc.entity.InventoryResponse">
+        <id property="articleNumber" column="article_number"/>
+        <result property="otherNumbers" column="other_numbers"/>
+        <result property="brandName" column="brand_name"/>
+        <result property="spuLogo" column="spu_logo"/>
+        <result property="avgCost" column="avg_cost"/>
+        <collection property="sizeQualityList" ofType="com.lyc.entity.SizeQuality">
+            <result property="size" column="size"/>
+            <result property="quality" column="quantity"/>
+        </collection>
+    </resultMap>
+
+    <!-- SQL 查询，按 sku_id 升序排列 -->
+    <select id="getInventorySummary" resultMap="InventoryResponseMap">
+        SELECT
+        s.article_number AS article_number,
+        s.other_numbers AS other_numbers,
+        s.brand_name AS brand_name,
+        s.spu_logo AS spu_logo,
+        s.size AS size,
+        AVG(i.cost) AS avg_cost,
+        COUNT(i.sku_id) AS quantity
+        FROM
+        inventory i
+        JOIN shoe s ON i.sku_id = s.sku_id
+        WHERE
+        i.user_id = #{userId} and i.status = #{status}
+        GROUP BY
+        s.article_number,
+        s.other_numbers,
+        s.brand_name,
+        s.size
+        ORDER BY s.size; <!-- 假设你想按 size 升序排序，如果需要按 sku_id，确保在SELECT列表中有sku_id -->
+    </select>
+
+    <select id="getInventoryDetail" resultType="com.lyc.entity.Inventory">
+        SELECT
+        *
+        FROM
+        inventory i
+        JOIN
+        shoe s ON i.sku_id = s.sku_id
+        WHERE
+        i.user_id = #{userId}
+        <if test="skuId != null and skuId != ''">
+            AND i.sku_id = #{skuId}
+        </if>
+        <if test="articleNumber != null and articleNumber != ''">
+            AND s.article_number = #{articleNumber}
+        </if>
+        ORDER BY
+        CASE
+        WHEN i.outbound_time IS NULL THEN 0
+        ELSE 1
+        END,
+        i.outbound_time DESC,
+        i.inbound_time DESC;
+    </select>
+
+
+    <update id="outbound">
+        UPDATE inventory i
+        SET i.status = 1, i.outbound_time = #{now}
+        WHERE i.inventory_id IN (
+            SELECT inventory_id
+            FROM (
+                     SELECT inventory_id
+                     FROM inventory
+                     WHERE sku_id = #{skuId} AND status = 0 AND user_id = #{userId}
+                     ORDER BY inbound_time ASC
+                         LIMIT #{count}
+                 ) AS subquery
+        );
+    </update>
+
+</mapper>

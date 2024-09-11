@@ -1,0 +1,59 @@
+spring:
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+  autoconfigure:
+    #??security????
+    exclude:
+      - org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+  datasource:
+    url: jdbc:mysql://localhost:3306/skus
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+server:
+  port: 8080
+
+redis:
+  host: localhost
+  port: 6379
+
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+
+jwt:
+  secret: your-very-secure-secret-key
+  expiration: 172800000  # 48 hours in milliseconds (1000 * 60 * 60 * 48)
+
+langchain4j:
+  open-ai:
+    chat-model:
+      api-key: "令牌"
+      base-url: https://token.w-l-h.xyz/v1
+      model-name: gpt-4o
+      temperature: 0.2
+      log-requests: true
+      log-responses: true
+
+aliyun:
+  oss:
+    endpoint: http://oss-cn-guangzhou.aliyuncs.com
+    accessKeyId: "自己的ID"
+    accessKeySecret: "自己的密钥"
+    bucketName: "自己的桶名"
+
+dewu:
+  default:
+    appKey: "得物开放平台的appkey"
+    secret: "得物开放平台的secret"
+
+
+
+
+
+
+

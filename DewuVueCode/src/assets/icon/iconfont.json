@@ -1,0 +1,37 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "712659",
+      "name": "order",
+      "font_class": "order",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "19009806",
+      "name": "库存-Inventory",
+      "font_class": "kucun-Inventory",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    },
+    {
+      "icon_id": "20182980",
+      "name": "warehouse",
+      "font_class": "warehouse",
+      "unicode": "e8c8",
+      "unicode_decimal": 59592
+    },
+    {
+      "icon_id": "41697659",
+      "name": "Settings",
+      "font_class": "Settings",
+      "unicode": "e68a",
+      "unicode_decimal": 59018
+    }
+  ]
+}

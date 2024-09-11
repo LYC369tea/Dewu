@@ -1,0 +1,29 @@
+@font-face {
+  font-family: "iconfont"; /* Project id  */
+  src: url('iconfont.ttf?t=1725949808383') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-order:before {
+  content: "\e60c";
+}
+
+.icon-kucun-Inventory:before {
+  content: "\e63f";
+}
+
+.icon-warehouse:before {
+  content: "\e8c8";
+}
+
+.icon-Settings:before {
+  content: "\e68a";
+}
+

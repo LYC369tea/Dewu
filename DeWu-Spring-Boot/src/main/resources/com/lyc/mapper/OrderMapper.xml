@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyc.mapper.OrderMapper">
+    <select id="getOrderList" resultType="com.lyc.entity.Order">
+        SELECT * FROM orders
+        WHERE user_id = #{userId}
+        <if test="startTime != null and endTime != null">
+            AND real_stmt_time BETWEEN #{startTime} AND #{endTime}
+        </if>
+        <if test="articleNumber != null and articleNumber != ''">
+            AND article_number = #{articleNumber}
+        </if>
+        <if test="size != null and size != ''">
+            AND props = #{size}
+        </if>
+        ORDER BY real_stmt_time DESC
+    </select>
+</mapper>

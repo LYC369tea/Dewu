@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyc.mapper.DataMapper">
+    <!-- 根据条形码查找鞋子（带行锁） -->
+    <select id="selectByBarcode" parameterType="string" resultType="com.lyc.entity.Shoe">
+        SELECT *
+        FROM shoe
+        WHERE barcode = #{barcode}
+           OR extra_code = #{barcode}
+           OR FIND_IN_SET(#{barcode}, custom_code) > 0
+            LIMIT 1
+            FOR UPDATE
+    </select>
+
+
+    <!-- 根据货号和尺码查找鞋子（带行锁） -->
+    <select id="selectByArticleNumber" parameterType="map" resultType="com.lyc.entity.Shoe">
+        SELECT * FROM shoe
+        WHERE (article_number = #{articleNumber}
+            OR FIND_IN_SET(#{articleNumber}, other_numbers) > 0)
+            AND size = #{size}
+            LIMIT 1
+            FOR UPDATE
+    </select>
+
+    <!-- 根据货号和尺码查找鞋子（带行锁） -->
+    <select id="selectListByArticleNumber" parameterType="String" resultType="com.lyc.entity.Shoe">
+        SELECT * FROM shoe
+        WHERE (article_number = #{articleNumber}
+            OR FIND_IN_SET(#{articleNumber}, other_numbers) > 0)
+          AND size = #{size}
+            FOR UPDATE
+
+    </select>
+
+</mapper>
