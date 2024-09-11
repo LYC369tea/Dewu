@@ -7,7 +7,7 @@ import { ElMessage } from 'element-plus'
 import router from '@/router'
 
 //定义一个变量,记录公共的前缀  ,  baseURL
-const baseURL = 'http://localhost:8080';/* http://45.207.212.48:8080 */
+const baseURL = 'http://localhost:8080';
 const instance = axios.create({baseURL})
 
 // 扩展全局状态，增加用于控制'服务异常'提示的标志
